@@ -12,9 +12,9 @@ package com.example.kieferl.hallowelt.app;
         import java.util.Arrays;
         import java.util.List;
 
-public class MainActivityFragment extends Fragment {
+public class BeispiellistenFragment extends Fragment {
 
-    public MainActivityFragment() {
+    public BeispiellistenFragment() {
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MainActivityFragment extends Fragment {
                         R.id.list_item_beispielliste_textview, // ID des TextViews
                         beispielliste); // Beispieldaten in einer ArrayList
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_liste, container, false);
 
         ListView aktienlisteListView = (ListView) rootView.findViewById(R.id.listview_beispielliste);
         aktienlisteListView.setAdapter(beispiellisteAdapter);
