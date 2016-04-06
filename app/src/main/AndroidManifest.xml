@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".TaschenrechnerActivity"
             android:label="Taschnerechner" />
-
+        <activity android:name=".LeereListe"
+            android:label="Liste" />
     </application>
 
 </manifest>

@@ -1,21 +1,27 @@
 package com.example.kieferl.hallowelt.app;
 
+    import android.support.v7.app.ActionBarActivity;
     import android.view.View;
     import android.widget.Button;
     import android.widget.TextView;
     import android.app.Activity;
     import android.os.Bundle;
+
+    import java.util.Arrays;
+    import java.util.List;
+    import java.util.ArrayList;
+    import android.view.View.OnClickListener;
 /**
   Created by kieferl on 05.04.2016.
  **/
 
-public class TaschenrechnerActivity extends Activity {
+public class TaschenrechnerActivity extends ActionBarActivity {
 
     private TextView rechnung;
     private Button klammerAuf;
     private Button klammerZu;
     private Button modulo;
-    private Button cancel;
+    private Button clear;
     private Button addition;
     private Button subtraktion;
     private Button multiplikation;
@@ -35,6 +41,7 @@ public class TaschenrechnerActivity extends Activity {
     private TextView nachricht;
     private TextView ergebnis;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +51,7 @@ public class TaschenrechnerActivity extends Activity {
         klammerAuf = (Button) findViewById(R.id.klammerAuf);
         klammerZu = (Button) findViewById(R.id.klammerZu);
         modulo = (Button) findViewById(R.id.modulo);
-        cancel = (Button) findViewById(R.id.cancel);
+        clear = (Button) findViewById(R.id.clear);
         addition = (Button) findViewById(R.id.addition);
         subtraktion = (Button) findViewById(R.id.subtraktion);
         multiplikation = (Button) findViewById(R.id.multiplikation);
@@ -180,7 +187,7 @@ public class TaschenrechnerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"*");
+                rechnung.setText(text + "*");
             }
         });
         division.setOnClickListener(new View.OnClickListener() {
@@ -190,21 +197,29 @@ public class TaschenrechnerActivity extends Activity {
                 rechnung.setText(text+"/");
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
+        clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText("");
+                /**if(rechnung.length() > 0)
+                    rechnung.deleteCharAt(rechnung.length()-1);*/
+                rechnung.setText(" ");
             }
         });         // möglicherweise noch verändern
+
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
+                rechnung.setText("ERROR");
+             //   List<String> listZahlen = new ArrayList<String>();
+            //    Arrays.asList( "+-*/".split( " " ));
+
+               // List<String> listOperatoren = new ArrayList<String>();
+           //     Arrays.asList("0 1 2 3 4 5 6 7 8 9".replaceAll(Szring." " ));
             }
         });
     }
 }
-
-
 
