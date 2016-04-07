@@ -1,18 +1,26 @@
 package com.example.kieferl.hallowelt.app;
 
-    import android.support.v7.app.ActionBarActivity;
-    import android.view.View;
-    import android.widget.Button;
-    import android.widget.TextView;
-    import android.app.Activity;
-    import android.os.Bundle;
+import android.net.Uri;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.app.Activity;
+import android.os.Bundle;
 
-    import java.util.Arrays;
-    import java.util.List;
-    import java.util.ArrayList;
-    import android.view.View.OnClickListener;
+import java.util.Stack;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
+import android.view.View.OnClickListener;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 /**
-  Created by kieferl on 05.04.2016.
+ * Created by kieferl on 05.04.2016.
  **/
 
 public class TaschenrechnerActivity extends ActionBarActivity {
@@ -20,7 +28,6 @@ public class TaschenrechnerActivity extends ActionBarActivity {
     private TextView rechnung;
     private Button klammerAuf;
     private Button klammerZu;
-    private Button modulo;
     private Button clear;
     private Button addition;
     private Button subtraktion;
@@ -38,8 +45,16 @@ public class TaschenrechnerActivity extends ActionBarActivity {
     private Button zero;
     private Button komma;
     private Button enter;
+    private Button gleich;
     private TextView nachricht;
     private TextView ergebnis;
+    private Stack<String> stack;
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -50,7 +65,6 @@ public class TaschenrechnerActivity extends ActionBarActivity {
         rechnung = (TextView) findViewById(R.id.rechnung);
         klammerAuf = (Button) findViewById(R.id.klammerAuf);
         klammerZu = (Button) findViewById(R.id.klammerZu);
-        modulo = (Button) findViewById(R.id.modulo);
         clear = (Button) findViewById(R.id.clear);
         addition = (Button) findViewById(R.id.addition);
         subtraktion = (Button) findViewById(R.id.subtraktion);
@@ -68,158 +82,335 @@ public class TaschenrechnerActivity extends ActionBarActivity {
         zero = (Button) findViewById(R.id.zero);
         komma = (Button) findViewById(R.id.komma);
         enter = (Button) findViewById(R.id.enter);
+        gleich = (Button) findViewById(R.id.gleich);
         nachricht = (TextView) findViewById(R.id.nachricht);
         ergebnis = (TextView) findViewById(R.id.ergebnis);
+        stack = new Stack<String>();
 
-        one.setOnClickListener(new View.OnClickListener() {
+        one.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"1");
+                rechnung.setText(text + "1");
+                ergebnis.setText("");
             }
         });
-        two.setOnClickListener(new View.OnClickListener() {
+        two.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"2");
+                rechnung.setText(text + "2");
+                ergebnis.setText("");
             }
         });
-        three.setOnClickListener(new View.OnClickListener() {
+        three.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"3");
+                rechnung.setText(text + "3");
+                ergebnis.setText("");
             }
         });
-        four.setOnClickListener(new View.OnClickListener() {
+        four.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "4");
+                ergebnis.setText("");
             }
         });
-        five.setOnClickListener(new View.OnClickListener() {
+        five.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "5");
+                ergebnis.setText("");
             }
         });
-        six.setOnClickListener(new View.OnClickListener() {
+        six.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "6");
+                ergebnis.setText("");
             }
         });
-        seven.setOnClickListener(new View.OnClickListener() {
+        seven.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "7");
+                ergebnis.setText("");
             }
         });
-        eight.setOnClickListener(new View.OnClickListener() {
+        eight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "8");
+                ergebnis.setText("");
             }
         });
-        nine.setOnClickListener(new View.OnClickListener() {
+        nine.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "9");
+                ergebnis.setText("");
             }
         });
-        zero.setOnClickListener(new View.OnClickListener() {
+        zero.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"0");
+                rechnung.setText(text + "0");
             }
         });
-        klammerAuf.setOnClickListener(new View.OnClickListener() {
+        klammerAuf.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "(");
+                ergebnis.setText("");
             }
         });
-        klammerZu.setOnClickListener(new View.OnClickListener() {
+        klammerZu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + ")");
+                ergebnis.setText("");
+
             }
         });
-        komma.setOnClickListener(new View.OnClickListener() {
+        komma.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+".");
+                rechnung.setText(text + ".");
             }
         });
-        modulo.setOnClickListener(new View.OnClickListener() {
+        addition.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text + "%");
+                //rechnung.setText(text + "+");
+                if (!stack.empty()) {
+                    stack.push(text);
+                    stack.push("+");
+
+                }
+                rechnung.setText("");
             }
         });
-        addition.setOnClickListener(new View.OnClickListener() {
+        subtraktion.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text + "+");
+                //rechnung.setText(text + "-");
+                if (!stack.empty()) {
+                    stack.push(text);
+                    stack.push("-");
+
+                }
+                rechnung.setText("");
             }
         });
-        subtraktion.setOnClickListener(new View.OnClickListener() {
+        multiplikation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"-");
+                //rechnung.setText(text + "*");
+                if (!stack.empty()) {
+                    stack.push(text);
+                    stack.push("*");
+                }
+                rechnung.setText("");
             }
         });
-        multiplikation.setOnClickListener(new View.OnClickListener() {
+        division.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text + "*");
+                //rechnung.setText(text + "/");
+                if (!stack.empty()) {
+                    stack.push(text);
+                    stack.push("/");
+                }
+                rechnung.setText("");
             }
         });
-        division.setOnClickListener(new View.OnClickListener() {
+        clear.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                rechnung.setText(text+"/");
+                //if(rechnung.length() > 0)
+                //    rechnung.deleteCharAt(rechnung.length()-1);
+                rechnung.setText("");
+                ergebnis.setText("");
+                stack.clear();
             }
         });
-        clear.setOnClickListener(new View.OnClickListener() {
+        enter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                /**if(rechnung.length() > 0)
-                    rechnung.deleteCharAt(rechnung.length()-1);*/
-                rechnung.setText(" ");
+                stack.push(text);
+                rechnung.setText("");
+                ergebnis.setText("");
             }
-        });         // möglicherweise noch verändern
+        });
+        gleich.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double a = 0.0;
+                double b = 0.0;
+                double c = 0.0;
+                double d = 0.0;
+                double e = 0.0;
+                double f = 0.0;
+                double i;
+
+                while (stack.size()>1) {
+                    String l = stack.pop();
+                    double m = Double.parseDouble(stack.pop());
+                    if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                        double n = Double.parseDouble(stack.pop());
+                        if (l == "+") {
+                            a = n + m;
+                        }
+                        if (l == "-") {
+                            a = n - m;
+                        }
+                        if (l == "*") {
+                            a = n * m;
+                        }
+                        if (l == "/") {
+                            a = n / m;
+                        }
+                        stack.push(Double.toString(a));
+                        if (stack.size() > 1) {
+                            stack.push("+");
+                        }
+                    } else {
+                        String o = stack.pop();
+                        double p = Double.parseDouble(stack.pop());
+                        if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                            double q = Double.parseDouble(stack.pop());
+                            if (o == "+") {
+                                b = q + p;
+                            }
+                            if (o == "-") {
+                                b = q - p;
+                            }
+                            if (o == "*") {
+                                b = q * p;
+                            }
+                            if (o == "/") {
+                                b = q / p;
+                            }
+                        }
+                            stack.push(Double.toString(b));
+                            stack.push(Double.toString(m));
+                            stack.push(l);
+                        } /**else {
+                            String r = stack.pop();
+                            double s = Double.parseDouble(stack.pop());
+                            if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                                double t = Double.parseDouble(stack.pop());
+                                if (r == "+") {
+                                    c = t + s;
+                                }
+                                if (r == "-") {
+                                    c = t - s;
+                                }
+                                if (r == "*") {
+                                    c = t * s;
+                                }
+                                if (r == "/") {
+                                    c = t / s;
+                                }
+                                //stack.push(Double.toString(c));
+                                stack.push(Double.toString(p));
+                                stack.push(o);
+                            }
+                        }
+                    }
+                    String g = stack.pop();
+                    double h = Double.parseDouble(stack.pop());
+                    if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                        double j = Double.parseDouble(stack.pop());
+                        if (g == "+") {
+                            d = j + h;
+                        }
+                        if (g == "-") {
+                            d = j - h;
+                        }
+                        if (g == "*") {
+                            d = j * h;
+                        }
+                        if (g == "/") {
+                            d = j / h;
+                        }
+                        // stack.push(Double.toString(d));
+                        if (stack.size() > 1) {
+                            stack.push("+");
+                        }
+                    } else {
+                        String k = stack.pop();
+                        double u = Double.parseDouble(stack.pop());
+                        if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                            double w = Double.parseDouble(stack.pop());
+                            if (k == "+") {
+                                e = w + u;
+                            }
+                            if (k == "-") {
+                                e = w - u;
+                            }
+                            if (k == "*") {
+                                e = w * u;
+                            }
+                            if (k == "/") {
+                                e = w / u;
+                            }
+
+                            //stack.push(Double.toString(e));
+                            stack.push(Double.toString(h));
+                            stack.push(g);
+                        } else {
+                            String x = stack.pop();
+                            double y = Double.parseDouble(stack.pop());
+                            if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
+                                double z = Double.parseDouble(stack.pop());
+                                if (x == "+") {
+                                    f = z + y;
+                                }
+                                if (x == "-") {
+                                    f = z - y;
+                                }
+                                if (x == "*") {
+                                    f = z * y;
+                                }
+                                if (x == "/") {
+                                    f = z / y;
+                                }
+                                //stack.push(Double.toString(f));
+                                stack.push(Double.toString(u));
+                                stack.push(k);
+                            }
+                        }
+                    }
+                }*/
+                }
+                    // i = a + b + c + d + e + f;
+                    ergebnis.setText(Double.toString(a));
 
 
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = rechnung.getText().toString();
-                rechnung.setText("ERROR");
-             //   List<String> listZahlen = new ArrayList<String>();
-            //    Arrays.asList( "+-*/".split( " " ));
-
-               // List<String> listOperatoren = new ArrayList<String>();
-           //     Arrays.asList("0 1 2 3 4 5 6 7 8 9".replaceAll(Szring." " ));
             }
+            // rechnung.setText("ERROR");
+
         });
     }
 }
+
 

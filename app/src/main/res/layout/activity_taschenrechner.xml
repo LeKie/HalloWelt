@@ -57,12 +57,12 @@
             />
 
         <Button
-            android:id="@+id/modulo"
+            android:id="@+id/enter"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="60dp"
             android:textSize="16pt"
-            android:text="%"
+            android:text="E"
             />
 
         <Button
@@ -229,7 +229,7 @@
             />
 
         <Button
-            android:id="@+id/enter"
+            android:id="@+id/gleich"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="60dp"
