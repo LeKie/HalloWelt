@@ -8,10 +8,9 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.os.Bundle;
 
-import java.util.Stack;
-import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Stack;
 
 import android.view.View.OnClickListener;
 
@@ -48,14 +47,14 @@ public class TaschenrechnerActivity extends ActionBarActivity {
     private Button gleich;
     private TextView nachricht;
     private TextView ergebnis;
-    private Stack<String> stack;
+    private Stack<Double> stack;
+    private List<String> list;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,8 @@ public class TaschenrechnerActivity extends ActionBarActivity {
         gleich = (Button) findViewById(R.id.gleich);
         nachricht = (TextView) findViewById(R.id.nachricht);
         ergebnis = (TextView) findViewById(R.id.ergebnis);
-        stack = new Stack<String>();
+        stack = new Stack<Double>();
+        list = new LinkedList<String>();
 
         one.setOnClickListener(new OnClickListener() {
             @Override
@@ -172,6 +172,7 @@ public class TaschenrechnerActivity extends ActionBarActivity {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "(");
                 ergebnis.setText("");
+                list.add("(");
             }
         });
         klammerZu.setOnClickListener(new OnClickListener() {
@@ -180,7 +181,7 @@ public class TaschenrechnerActivity extends ActionBarActivity {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + ")");
                 ergebnis.setText("");
-
+                list.add(")");
             }
         });
         komma.setOnClickListener(new OnClickListener() {
@@ -195,12 +196,9 @@ public class TaschenrechnerActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "+");
-                if (!stack.empty()) {
-                    stack.push(text);
-                    stack.push("+");
-
-                }
-                rechnung.setText("");
+                list.add(text);
+                list.add("+");
+                rechnung.setText(" ");
             }
         });
         subtraktion.setOnClickListener(new OnClickListener() {
@@ -208,12 +206,9 @@ public class TaschenrechnerActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "-");
-                if (!stack.empty()) {
-                    stack.push(text);
-                    stack.push("-");
-
-                }
-                rechnung.setText("");
+                list.add(text);
+                list.add("-");
+                rechnung.setText(" ");
             }
         });
         multiplikation.setOnClickListener(new OnClickListener() {
@@ -221,11 +216,9 @@ public class TaschenrechnerActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "*");
-                if (!stack.empty()) {
-                    stack.push(text);
-                    stack.push("*");
-                }
-                rechnung.setText("");
+                list.add(text);
+                list.add("*");
+                rechnung.setText(" ");
             }
         });
         division.setOnClickListener(new OnClickListener() {
@@ -233,11 +226,9 @@ public class TaschenrechnerActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "/");
-                if (!stack.empty()) {
-                    stack.push(text);
-                    stack.push("/");
-                }
-                rechnung.setText("");
+                list.add(text);
+                list.add("/");
+                rechnung.setText(" ");
             }
         });
         clear.setOnClickListener(new OnClickListener() {
@@ -246,171 +237,88 @@ public class TaschenrechnerActivity extends ActionBarActivity {
                 String text = rechnung.getText().toString();
                 //if(rechnung.length() > 0)
                 //    rechnung.deleteCharAt(rechnung.length()-1);
-                rechnung.setText("");
-                ergebnis.setText("");
+                rechnung.setText(" ");
+                ergebnis.setText(" ");
                 stack.clear();
+                list.clear();
             }
         });
         enter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
-                stack.push(text);
-                rechnung.setText("");
-                ergebnis.setText("");
+                list.add(text);
+                rechnung.setText(" ");
+                ergebnis.setText(" ");
             }
         });
         gleich.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                double a = 0.0;
-                double b = 0.0;
-                double c = 0.0;
-                double d = 0.0;
-                double e = 0.0;
-                double f = 0.0;
-                double i;
-
-                while (stack.size()>1) {
-                    String l = stack.pop();
-                    double m = Double.parseDouble(stack.pop());
-                    if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                        double n = Double.parseDouble(stack.pop());
-                        if (l == "+") {
-                            a = n + m;
+                /**for (String element : list) {
+                    if (element == "(" || element == ")" || element == "+" || element == "-" || element == "*" || element == "/") {
+                        if (element == "(") {
+                            stack.push(Double.parseDouble(element));
                         }
-                        if (l == "-") {
-                            a = n - m;
-                        }
-                        if (l == "*") {
-                            a = n * m;
-                        }
-                        if (l == "/") {
-                            a = n / m;
-                        }
-                        stack.push(Double.toString(a));
-                        if (stack.size() > 1) {
-                            stack.push("+");
-                        }
-                    } else {
-                        String o = stack.pop();
-                        double p = Double.parseDouble(stack.pop());
-                        if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                            double q = Double.parseDouble(stack.pop());
-                            if (o == "+") {
-                                b = q + p;
+                        if (element == "+" || element == "-") {
+                            while (stack.peek() != Double.parseDouble("(")&& !stack.empty()) {
+                                list.add(Double.toString(stack.pop()));
                             }
-                            if (o == "-") {
-                                b = q - p;
-                            }
-                            if (o == "*") {
-                                b = q * p;
-                            }
-                            if (o == "/") {
-                                b = q / p;
-                            }
+                            stack.push(Double.parseDouble(element));
                         }
-                            stack.push(Double.toString(b));
-                            stack.push(Double.toString(m));
-                            stack.push(l);
-                        } /**else {
-                            String r = stack.pop();
-                            double s = Double.parseDouble(stack.pop());
-                            if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                                double t = Double.parseDouble(stack.pop());
-                                if (r == "+") {
-                                    c = t + s;
-                                }
-                                if (r == "-") {
-                                    c = t - s;
-                                }
-                                if (r == "*") {
-                                    c = t * s;
-                                }
-                                if (r == "/") {
-                                    c = t / s;
-                                }
-                                //stack.push(Double.toString(c));
-                                stack.push(Double.toString(p));
-                                stack.push(o);
-                            }
-                        }
-                    }
-                    String g = stack.pop();
-                    double h = Double.parseDouble(stack.pop());
-                    if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                        double j = Double.parseDouble(stack.pop());
-                        if (g == "+") {
-                            d = j + h;
-                        }
-                        if (g == "-") {
-                            d = j - h;
-                        }
-                        if (g == "*") {
-                            d = j * h;
-                        }
-                        if (g == "/") {
-                            d = j / h;
-                        }
-                        // stack.push(Double.toString(d));
-                        if (stack.size() > 1) {
-                            stack.push("+");
-                        }
-                    } else {
-                        String k = stack.pop();
-                        double u = Double.parseDouble(stack.pop());
-                        if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                            double w = Double.parseDouble(stack.pop());
-                            if (k == "+") {
-                                e = w + u;
-                            }
-                            if (k == "-") {
-                                e = w - u;
-                            }
-                            if (k == "*") {
-                                e = w * u;
-                            }
-                            if (k == "/") {
-                                e = w / u;
+                        if (element == "*" || element == "/") {
+                            while (stack.peek() != Double.parseDouble("(")&&!stack.empty()) {
+                                double l = Double.parseDouble(String.valueOf(stack.remove("*")));
+                                list.add(String.valueOf(l));
+                                double m = Double.parseDouble(String.valueOf(stack.remove("/")));
+                                list.add(String.valueOf(m));
                             }
 
-                            //stack.push(Double.toString(e));
-                            stack.push(Double.toString(h));
-                            stack.push(g);
+                            stack.push(Double.parseDouble(element));
+                        }
+                        if (element == ")") {
+                            while (stack.peek() != Double.parseDouble("(")) {
+                                double l = Double.parseDouble(String.valueOf(stack.remove("*")));
+                                list.add(String.valueOf(l));
+                                double m = Double.parseDouble(String.valueOf(stack.remove("/")));
+                                list.add(String.valueOf(m));
+                                double n = Double.parseDouble(String.valueOf(stack.remove("+")));
+                                list.add(String.valueOf(n));
+                                double o = Double.parseDouble(String.valueOf(stack.remove("-")));
+                                list.add(String.valueOf(o));
+                            }
                         } else {
-                            String x = stack.pop();
-                            double y = Double.parseDouble(stack.pop());
-                            if (!(stack.peek() == "+" || stack.peek() == "-" || stack.peek() == "*" || stack.peek() == "/")) {
-                                double z = Double.parseDouble(stack.pop());
-                                if (x == "+") {
-                                    f = z + y;
-                                }
-                                if (x == "-") {
-                                    f = z - y;
-                                }
-                                if (x == "*") {
-                                    f = z * y;
-                                }
-                                if (x == "/") {
-                                    f = z / y;
-                                }
-                                //stack.push(Double.toString(f));
-                                stack.push(Double.toString(u));
-                                stack.push(k);
-                            }
+                            list.add(element);
                         }
                     }
                 }*/
-                }
-                    // i = a + b + c + d + e + f;
-                    ergebnis.setText(Double.toString(a));
-
+                    for (String element : list) {
+                        if (!(element == "+" || element == "-" || element == "*" || element == "/")) {
+                            stack.push(Double.parseDouble(element));
+                        } else {
+                            double rechts = stack.pop();
+                            double links = stack.pop();
+                            double a = 0.0;
+                            if (element == "+") {
+                                a = links + rechts;
+                            }
+                            if (element == "-") {
+                                a = links - rechts;
+                            }
+                            if (element == "*") {
+                                a = links * rechts;
+                            }
+                            if (element == "/") {
+                                a = links / rechts;
+                            }
+                            stack.push(a);
+                        }
+                    }
+                    ergebnis.setText(Double.toString(stack.pop()));
+                    stack.clear();
+                    // rechnung.setText("ERROR");
 
             }
-            // rechnung.setText("ERROR");
-
         });
     }
 }
-
-
