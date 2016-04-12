@@ -28,7 +28,7 @@ import static android.graphics.Color.*;
  * Created by kieferl on 05.04.2016.
  **/
 
-public class TaschenrechnerActivity extends ActionBarActivity {
+public class TaschenrechnerActivity extends Activity {
 
     private TextView rechnung;
     private Button klammerAuf;
@@ -54,6 +54,7 @@ public class TaschenrechnerActivity extends ActionBarActivity {
     private TextView nachricht;
     private TextView ergebnis;
     private Stack<String> umwandlung;
+    private Stack<String> umwandlung2;
     private Stack<Double> stack;
     private List<String> list1;
     private List<String> list2;
@@ -95,6 +96,7 @@ public class TaschenrechnerActivity extends ActionBarActivity {
         ergebnis = (TextView) findViewById(R.id.ergebnis);
         stack = new Stack<Double>();
         umwandlung = new Stack<String>();
+        umwandlung2 = new Stack<String>();
         list1 = new LinkedList<String>();
         list2 = new LinkedList<String>();
 
@@ -296,11 +298,11 @@ public class TaschenrechnerActivity extends ActionBarActivity {
                                 if (umwandlung.peek() == "*" || umwandlung.peek() == "/") {
                                     list2.add(umwandlung.pop());
                                 } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
-                                    stack.push(Double.valueOf(umwandlung.pop()));
-                                }
+                                    umwandlung2.push(umwandlung.pop());
                             }
-                            while (!stack.empty()) {
-                                umwandlung.push(String.valueOf(stack.pop()));
+                            }
+                            while (!umwandlung2.empty()) {
+                                umwandlung.push(umwandlung2.pop());
                             }
                             umwandlung.push(element);
                         } else if (element == ")") {
@@ -332,14 +334,11 @@ public class TaschenrechnerActivity extends ActionBarActivity {
                         double a = 0.0;
                         if (element == "+") {
                             a = links + rechts;
-                        }
-                        if (element == "-") {
+                        } else if (element == "-") {
                             a = links - rechts;
-                        }
-                        if (element == "*") {
+                        } else if (element == "*") {
                             a = links * rechts;
-                        }
-                        if (element == "/") {
+                        }else if (element == "/") {
                             a = links / rechts;
                         }
                         stack.push(a);

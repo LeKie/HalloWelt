@@ -8,29 +8,32 @@
     <TextView
         android:id="@+id/nachricht"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:text="Taschenrechner"
-        android:textSize="14pt"
+        android:textSize="16pt"
         android:paddingTop="10dp"
         />
 
     <TextView
         android:id="@+id/rechnung"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="80dp"
         android:singleLine="true"
-        android:textSize="18pt"
+        android:textSize="20pt"
         android:inputType="none"
+        android:typeface="sans"
         />
 
 
     <TextView
         android:id="@+id/ergebnis"
         android:layout_width="fill_parent"
-        android:layout_height="85dp"
+        android:layout_height="90dp"
         android:paddingTop="10dp"
         android:paddingBottom="8dp"
         android:textSize="24pt"
+        android:typeface="sans"
+        android:gravity="right"
         />
 
     <LinearLayout
@@ -40,38 +43,45 @@
 
         <Button
             android:id="@+id/klammerAuf"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="75dp"
             android:textSize="16pt"
             android:text="("
             />
 
         <Button
             android:id="@+id/klammerZu"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="75dp"
             android:textSize="16pt"
             android:text=")"
             />
 
         <Button
             android:id="@+id/backspace"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="75dp"
             android:textSize="16pt"
-            android:text="B"
-            />
+            android:text="\u2B05" />
 
         <Button
             android:id="@+id/clear"
+            android:background="@drawable/button_border5"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="60dp"
+            android:layout_height="75dp"
             android:textSize="16pt"
-            android:text="C"
+            android:textAllCaps="false"
+            android:text="Cl"
             />
 
     </LinearLayout>
@@ -83,36 +93,44 @@
 
         <Button
             android:id="@+id/seven"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="7"
             />
 
         <Button
             android:id="@+id/eight"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="8"
             />
 
         <Button
             android:id="@+id/nine"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="9"
             />
 
         <Button
             android:id="@+id/addition"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="+"
             />
@@ -126,36 +144,44 @@
 
         <Button
             android:id="@+id/four"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="4"
             />
 
         <Button
             android:id="@+id/five"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="5"
             />
 
         <Button
             android:id="@+id/six"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="6"
             />
 
         <Button
             android:id="@+id/subtraktion"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="-"
             />
@@ -169,38 +195,46 @@
 
         <Button
             android:id="@+id/one"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="1"
             />
 
         <Button
             android:id="@+id/two"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="63dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="2"
             />
 
         <Button
             android:id="@+id/three"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="3"
             />
 
         <Button
             android:id="@+id/multiplikation"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
-            android:text="*"
+            android:text="\u00D7"
             />
 
     </LinearLayout>
@@ -212,38 +246,46 @@
 
         <Button
             android:id="@+id/komma"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
-            android:text="."
+            android:text=","
             />
 
         <Button
             android:id="@+id/zero"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="0"
             />
 
         <Button
             android:id="@+id/gleich"
+            android:background="@drawable/button_border"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
             android:text="="
             />
 
         <Button
             android:id="@+id/division"
+            android:background="@drawable/button_border2"
+            android:typeface="sans"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:textSize="16pt"
-            android:text="/"
+            android:text="\u00F7"
             />
 
     </LinearLayout>
