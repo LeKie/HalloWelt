@@ -13,7 +13,7 @@
         android:textSize="18pt"
         android:inputType="none"
         android:typeface="sans"
-        android:gravity="right"
+        android:gravity="left"
         />
 
     <TextView
@@ -155,7 +155,7 @@
             />
 
         <Button
-            android:id="@+id/Ausrufezeichen"
+            android:id="@+id/ausrufezeichen"
             android:background="@drawable/button_border3"
             android:typeface="sans"
             android:layout_width="0dp"
@@ -254,7 +254,7 @@
             />
 
         <Button
-            android:id="@+id/Potenz"
+            android:id="@+id/potenz"
             android:background="@drawable/button_border3"
             android:typeface="sans"
             android:layout_width="0dp"
@@ -351,7 +351,7 @@
             />
 
         <Button
-            android:id="@+id/Wurzel"
+            android:id="@+id/wurzel"
             android:background="@drawable/button_border3"
             android:typeface="sans"
             android:layout_width="0dp"
