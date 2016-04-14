@@ -237,7 +237,7 @@ public class TaschenrechnerActivity extends Activity {
                 ergebnis.setText(" ");
                 list1.add(text);
                 list1.add(")");
-                rechnung.setText("");
+                rechnung.setText(" ");
                 changeColor3(klammerZu);
             }
         });
