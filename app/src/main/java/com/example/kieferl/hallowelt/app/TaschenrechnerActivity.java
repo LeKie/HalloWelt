@@ -615,8 +615,11 @@ public class TaschenrechnerActivity extends Activity {
             wurzel.setBackground(getDrawable(R.drawable.button_border3));
             potenz.setBackground(getDrawable(R.drawable.button_border3));
             fakultät.setBackground(getDrawable(R.drawable.button_border3));
+            klammerAuf.setBackground(getDrawable(R.drawable.button_border3));
         }
-        klammerAuf.setBackground(getDrawable(R.drawable.button_border3));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            klammerAuf.setBackground(getDrawable(R.drawable.button_border2));
+        }
         addition.setBackground(getDrawable(R.drawable.button_border2));
         subtraktion.setBackground(getDrawable(R.drawable.button_border2));
         multiplikation.setBackground(getDrawable(R.drawable.button_border2));
