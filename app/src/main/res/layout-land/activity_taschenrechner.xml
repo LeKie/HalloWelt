@@ -155,7 +155,7 @@
             />
 
         <Button
-            android:id="@+id/ausrufezeichen"
+            android:id="@+id/fakultät"
             android:background="@drawable/button_border3"
             android:typeface="sans"
             android:layout_width="0dp"

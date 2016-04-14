@@ -1,22 +1,24 @@
 package com.example.kieferl.hallowelt.app;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import android.os.Bundle;
 import android.widget.Toast;
-
 import java.util.List;
 import java.util.*;
 import java.util.Stack;
 
 import java.lang.*;
-
 import android.view.View.OnClickListener;
 
 import com.google.android.gms.appindexing.Action;
@@ -24,11 +26,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import static java.lang.Double.*;
-
 /**
  * Created by kieferl on 05.04.2016.
  **/
-
 public class TaschenrechnerActivity extends Activity {
 
     private TextView rechnung;
@@ -54,9 +54,14 @@ public class TaschenrechnerActivity extends Activity {
     private Button gleich;
     private Button pi;
     private Button e;
-    private Button ausrufezeichen;
+    private Button fakultät;
     private Button potenz;
     private Button wurzel;
+    private Button sin;
+    private Button cos;
+    private Button tan;
+    private Button ln;
+    private Button log;
     private TextView nachricht;
     private TextView ergebnis;
     private Stack<String> umwandlung;
@@ -64,12 +69,9 @@ public class TaschenrechnerActivity extends Activity {
     private Stack<Double> stack;
     private List<String> list1;
     private List<String> list2;
+    private Pair<Button,Drawable> previousClickedButton;
 
     private GoogleApiClient client;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private static GoogleApiClient client2;
 
     @Override
@@ -100,9 +102,14 @@ public class TaschenrechnerActivity extends Activity {
         gleich = (Button) findViewById(R.id.gleich);
         pi = (Button) findViewById(R.id.pi);
         e = (Button) findViewById(R.id.e);
-        ausrufezeichen = (Button) findViewById(R.id.ausrufezeichen);
+        fakultät = (Button) findViewById(R.id.fakultät);
         potenz = (Button) findViewById(R.id.potenz);
         wurzel = (Button) findViewById(R.id.wurzel);
+        sin = (Button) findViewById(R.id.sin);
+        cos = (Button) findViewById(R.id.cos);
+        tan = (Button) findViewById(R.id.tan);
+        ln = (Button) findViewById(R.id.ln);
+        log = (Button) findViewById(R.id.log);
         nachricht = (TextView) findViewById(R.id.nachricht);
         ergebnis = (TextView) findViewById(R.id.ergebnis);
         stack = new Stack<Double>();
@@ -216,8 +223,10 @@ public class TaschenrechnerActivity extends Activity {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "(");
                 ergebnis.setText(" ");
-                list1.add("(");
                 rechnung.setText("");
+                list1.add("(");
+                changeColor5(klammerAuf);
+                changeColor4(klammerAuf);
             }
         });
         klammerZu.setOnClickListener(new OnClickListener() {
@@ -229,6 +238,7 @@ public class TaschenrechnerActivity extends Activity {
                 list1.add(text);
                 list1.add(")");
                 rechnung.setText("");
+                changeColor3(klammerZu);
             }
         });
         komma.setOnClickListener(new OnClickListener() {
@@ -243,11 +253,12 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "+");
-                if (text != "" && text != " ") {
-                    list1.add(text);
+                list1.add(text);
+                if (!list1.isEmpty()) {
+                    changeColor1(addition);
+                    list1.add("+");
+                    rechnung.setText("");
                 }
-                list1.add("+");
-                rechnung.setText("");
             }
         });
         subtraktion.setOnClickListener(new OnClickListener() {
@@ -255,11 +266,12 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "-");
-                if (text != "" && text != " ") {
-                    list1.add(text);
+                list1.add(text);
+                if (!list1.isEmpty()) {
+                    changeColor1(subtraktion);
+                    list1.add("-");
+                    rechnung.setText("");
                 }
-                list1.add("-");
-                rechnung.setText("");
             }
         });
         multiplikation.setOnClickListener(new OnClickListener() {
@@ -267,11 +279,12 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "*");
-                if (text != "" && text != " ") {
-                    list1.add(text);
+                list1.add(text);
+                if (!list1.isEmpty()) {
+                    changeColor1(multiplikation);
+                    list1.add("*");
+                    rechnung.setText("");
                 }
-                list1.add("*");
-                rechnung.setText("");
             }
         });
         division.setOnClickListener(new OnClickListener() {
@@ -279,11 +292,12 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "/");
-                if (text != "" && text != " ") {
-                    list1.add(text);
+                list1.add(text);
+                if (!list1.isEmpty()) {
+                    changeColor1(division);
+                    list1.add("/");
+                    rechnung.setText("");
                 }
-                list1.add("/");
-                rechnung.setText("");
             }
         });
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -294,6 +308,7 @@ public class TaschenrechnerActivity extends Activity {
                     list1.add(text);
                     list1.add("^");
                     rechnung.setText("");
+                    changeColor2(potenz);
                 }
             });
         }
@@ -304,17 +319,73 @@ public class TaschenrechnerActivity extends Activity {
                     String text = rechnung.getText().toString();
                     list1.add("W");
                     Toast.makeText(TaschenrechnerActivity.this, "Radikand in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(wurzel);
                 }
             });
         }
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ausrufezeichen.setOnClickListener(new OnClickListener() {
+            fakultät.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add(text);
                     list1.add("!");
                     rechnung.setText("");
+                }
+            });
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            sin.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = rechnung.getText().toString();
+                    list1.add("sin");
+                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(sin);
+                }
+            });
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            cos.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = rechnung.getText().toString();
+                    list1.add("cos");
+                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(cos);
+                }
+            });
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            tan.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = rechnung.getText().toString();
+                    list1.add("tan");
+                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(tan);
+                }
+            });
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ln.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = rechnung.getText().toString();
+                    list1.add("ln");
+                    Toast.makeText(TaschenrechnerActivity.this, "Wert in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(ln);
+                }
+            });
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            log.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = rechnung.getText().toString();
+                    list1.add("log");
+                    Toast.makeText(TaschenrechnerActivity.this, "Wert in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    changeColor2(log);
                 }
             });
         }
@@ -328,6 +399,7 @@ public class TaschenrechnerActivity extends Activity {
                 umwandlung.clear();
                 list1.clear();
                 list2.clear();
+                previousClickedButton.first.setBackground(previousClickedButton.second);
             }
         });
         backspace.setOnClickListener(new OnClickListener() {
@@ -345,10 +417,11 @@ public class TaschenrechnerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
+                previousClickedButton.first.setBackground(previousClickedButton.second);
                 list1.add(text);
                 rechnung.setText(" ");
                 for (String element : list1) {
-                    if (element == "(" || element == ")" || element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == ")" || element == "") {
+                    if (element == "(" || element == ")" || element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log" || element == ")" || element == "") {
                         if (element == "(") {
                             umwandlung.push(element);
                         } else if (element == "+" || element == "-") {
@@ -358,7 +431,7 @@ public class TaschenrechnerActivity extends Activity {
                             umwandlung.push(element);
                         } else if (element == "*" || element == "/") {
                             while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
-                                if (umwandlung.peek() == "*" || umwandlung.peek() == "/") {
+                                if (umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^") {
                                     list2.add(umwandlung.pop());
                                 } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
                                     umwandlung2.push(umwandlung.pop());
@@ -378,7 +451,11 @@ public class TaschenrechnerActivity extends Activity {
                                     umwandlung2.push(umwandlung.pop());
                                 }
                             }
-                        } else if (element == "W") {
+                            while (!umwandlung2.empty()) {
+                                umwandlung.push(umwandlung2.pop());
+                            }
+                            umwandlung.push(element);
+                        } else if (element == "W" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log") {
                             umwandlung.push(element);
                         } else if (element == "!") {
                             list2.add(element);
@@ -388,9 +465,29 @@ public class TaschenrechnerActivity extends Activity {
                             }
                             if (umwandlung.peek() == ("(")) {
                                 int l = umwandlung.search("W");
+                                int m = umwandlung.search("sin");
+                                int n = umwandlung.search("cos");
+                                int o = umwandlung.search("tan");
+                                int p = umwandlung.search("ln");
+                                int q = umwandlung.search("log");
                                 if (l == 2) {
                                     list2.add("W");
                                     umwandlung.remove("W");
+                                } else if (m == 2) {
+                                    list2.add("sin");
+                                    umwandlung.remove("sin");
+                                } else if (n == 2) {
+                                    list2.add("cos");
+                                    umwandlung.remove("cos");
+                                } else if (o == 2) {
+                                    list2.add("tan");
+                                    umwandlung.remove("tan");
+                                } else if (p == 2) {
+                                    list2.add("ln");
+                                    umwandlung.remove("ln");
+                                } else if (q == 2) {
+                                    list2.add("log");
+                                    umwandlung.remove("log");
                                 }
                             }
                         } else if (element == "") {
@@ -403,14 +500,14 @@ public class TaschenrechnerActivity extends Activity {
                     }
                 }
                 while (!umwandlung.empty()) {
-                    if (umwandlung.peek() == "+" || umwandlung.peek() == "-" || umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^" || umwandlung.peek() == "W" || umwandlung.peek() == "!") {
+                    if (umwandlung.peek() == "+" || umwandlung.peek() == "-" || umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^" || umwandlung.peek() == "W" || umwandlung.peek() == "!" || umwandlung.peek() == "sin" || umwandlung.peek() == "cos" || umwandlung.peek() == "tan" || umwandlung.peek() == "ln" || umwandlung.peek() == "log") {
                         list2.add(umwandlung.pop());
                     } else if (umwandlung.peek() == "(") {
                         umwandlung.pop();
                     }
                 }
                 for (String element : list2) {
-                    if (!(element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!")) {
+                    if (!(element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log")) {
                         stack.push(parseDouble(element));
                     } else if (element == "+" || element == "-" || element == "*" || element == "/" || element == "^") {
                         double rechts = stack.pop();
@@ -433,6 +530,31 @@ public class TaschenrechnerActivity extends Activity {
                         double a = 0.0;
                         a = Math.sqrt(radikand);
                         stack.push(a);
+                    } else if (element == "sin") {
+                        double sin = stack.pop();
+                        double a = 0.0;
+                        a = Math.sin(sin);
+                        stack.push(a);
+                    } else if (element == "cos") {
+                        double cos = stack.pop();
+                        double a = 0.0;
+                        a = Math.cos(cos);
+                        stack.push(a);
+                    } else if (element == "tan") {
+                        double tan = stack.pop();
+                        double a = 0.0;
+                        a = Math.tan(tan);
+                        stack.push(a);
+                    } else if (element == "ln") {
+                        double ln = stack.pop();
+                        double a = 0.0;
+                        a = Math.log(ln);
+                        stack.push(a);
+                    } else if (element == "log") {
+                        double log = stack.pop();
+                        double a = 0.0;
+                        a = Math.log10(log);
+                        stack.push(a);
                     } else if (element == "!") {
                         double popedDouble = stack.pop();
                         long factvar = (long) popedDouble;
@@ -453,17 +575,86 @@ public class TaschenrechnerActivity extends Activity {
             return fact(n - 1) * n;
         }
     }
+    public void changeColor1(Button currentButton) {
+        if (previousClickedButton != null) {
+            previousClickedButton.first.setBackground(previousClickedButton.second);
+            String text = (String) rechnung.getText();
+            if (list1.lastIndexOf(")") != list1.size()-1) {
+                if (currentButton == addition && text == " " || text == "") {
+                    list1.remove(list1.size() - 1);
+                } else if (currentButton == subtraktion && text == " " || text == "") {
+                    list1.remove(list1.size() - 1);
+                } else if (currentButton == multiplikation && text == " " || text == "") {
+                    list1.remove(list1.size() - 1);
+                } else if (currentButton == division && text == " " || text == "") {
+                    list1.remove(list1.size() - 1);
+                }
+            }
+        }
+            previousClickedButton = Pair.create(currentButton, currentButton.getBackground());
+            currentButton.setBackground(getDrawable(R.drawable.button_change2));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            potenz.setBackground(getDrawable(R.drawable.button_border3));
+        }
+    }
+    public void changeColor2 (Button buttonAn) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            buttonAn.setBackground(getDrawable(R.drawable.button_change1));
+            if (klammerZu.isPressed()) {
+                buttonAn.setBackground(getDrawable(R.drawable.button_border3));
+            }
+        }
+    }
+    public void changeColor3 (Button alle) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            sin.setBackground(getDrawable(R.drawable.button_border3));
+            cos.setBackground(getDrawable(R.drawable.button_border3));
+            tan.setBackground(getDrawable(R.drawable.button_border3));
+            ln.setBackground(getDrawable(R.drawable.button_border3));
+            log.setBackground(getDrawable(R.drawable.button_border3));
+            wurzel.setBackground(getDrawable(R.drawable.button_border3));
+            potenz.setBackground(getDrawable(R.drawable.button_border3));
+            fakultät.setBackground(getDrawable(R.drawable.button_border3));
+        }
+        klammerAuf.setBackground(getDrawable(R.drawable.button_border3));
+        addition.setBackground(getDrawable(R.drawable.button_border2));
+        subtraktion.setBackground(getDrawable(R.drawable.button_border2));
+        multiplikation.setBackground(getDrawable(R.drawable.button_border2));
+        division.setBackground(getDrawable(R.drawable.button_border2));
+    }
+    public void changeColor4 (Button operatoren) {
+        addition.setBackground(getDrawable(R.drawable.button_border2));
+        subtraktion.setBackground(getDrawable(R.drawable.button_border2));
+        multiplikation.setBackground(getDrawable(R.drawable.button_border2));
+        division.setBackground(getDrawable(R.drawable.button_border2));
+    }
+    public void changeColor5 (Button klammerAuf) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            klammerAuf.setBackground(getDrawable(R.drawable.button_change1));
+            if (klammerZu.isPressed()) {
+                klammerAuf.setBackground(getDrawable(R.drawable.button_border3));
+            }
+        } else {
+            klammerAuf.setBackground(getDrawable(R.drawable.button_change2));
+            if (klammerZu.isPressed()) {
+                klammerAuf.setBackground(getDrawable(R.drawable.button_border2));
+            }
+        }
+    }
+
+
     @Override
     public void onStart() {
-        super.onStart();
+       super.onStart();
 
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
                 "Taschenrechner Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
+          // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
+
+           Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.example.kieferl.hallowelt.app/http/host/path")
         );
