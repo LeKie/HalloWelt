@@ -2,5 +2,7 @@
     <string name="app_name">ListenHQ</string>
     <string name="hello_world">Hallo Welt!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_taschenrechner">Taschenrechner</string>
     <string name="liste_teilen">Teilen</string>
+    <string name="title_activity_main">DeineListen</string>
 </resources>

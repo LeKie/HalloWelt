@@ -123,6 +123,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "1");
+                changeColor1(one);
                 ergebnis.setText("");
             }
         });
@@ -131,6 +132,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "2");
+                changeColor1(two);
                 ergebnis.setText("");
             }
         });
@@ -139,6 +141,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "3");
+                changeColor1(three);
                 ergebnis.setText("");
             }
         });
@@ -147,6 +150,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "4");
+                changeColor1(four);
                 ergebnis.setText("");
             }
         });
@@ -155,6 +159,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "5");
+                changeColor1(five);
                 ergebnis.setText("");
             }
         });
@@ -163,6 +168,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "6");
+                changeColor1(six);
                 ergebnis.setText("");
             }
         });
@@ -171,6 +177,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "7");
+                changeColor1(seven);
                 ergebnis.setText("");
             }
         });
@@ -179,6 +186,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "8");
+                changeColor1(eight);
                 ergebnis.setText("");
             }
         });
@@ -187,6 +195,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "9");
+                changeColor1(nine);
                 ergebnis.setText("");
             }
         });
@@ -195,6 +204,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + "0");
+                changeColor1(zero);
             }
         });
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -204,6 +214,7 @@ public class TaschenrechnerActivity extends Activity {
                     String text = rechnung.getText().toString();
                     rechnung.setText("3.14159265359");
                     ergebnis.setText("");
+                    changeColor6(pi);
                 }
             });
         }
@@ -214,6 +225,7 @@ public class TaschenrechnerActivity extends Activity {
                     String text = rechnung.getText().toString();
                     rechnung.setText("2.71828182846");
                     ergebnis.setText("");
+                    changeColor6(e);
                 }
             });
         }
@@ -225,8 +237,8 @@ public class TaschenrechnerActivity extends Activity {
                 ergebnis.setText(" ");
                 rechnung.setText("");
                 list1.add("(");
-                changeColor5(klammerAuf);
                 changeColor4(klammerAuf);
+                changeColor5(klammerAuf);
             }
         });
         klammerZu.setOnClickListener(new OnClickListener() {
@@ -246,6 +258,7 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 rechnung.setText(text + ".");
+                changeColor1(komma);
             }
         });
         addition.setOnClickListener(new OnClickListener() {
@@ -253,7 +266,9 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "+");
-                list1.add(text);
+                if (text != "" && text != " ") {
+                    list1.add(text);
+                }
                 if (!list1.isEmpty()) {
                     changeColor1(addition);
                     list1.add("+");
@@ -266,7 +281,9 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "-");
-                list1.add(text);
+                if (text != "" && text != " ") {
+                    list1.add(text);
+                }
                 if (!list1.isEmpty()) {
                     changeColor1(subtraktion);
                     list1.add("-");
@@ -279,7 +296,9 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "*");
-                list1.add(text);
+                if (text != "" && text != " ") {
+                    list1.add(text);
+                }
                 if (!list1.isEmpty()) {
                     changeColor1(multiplikation);
                     list1.add("*");
@@ -292,7 +311,9 @@ public class TaschenrechnerActivity extends Activity {
             public void onClick(View v) {
                 String text = rechnung.getText().toString();
                 //rechnung.setText(text + "/");
-                list1.add(text);
+                if (text != "" && text != " ") {
+                    list1.add(text);
+                }
                 if (!list1.isEmpty()) {
                     changeColor1(division);
                     list1.add("/");
@@ -318,7 +339,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("W");
-                    Toast.makeText(TaschenrechnerActivity.this, "Radikand in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(wurzel);
                 }
             });
@@ -330,6 +351,7 @@ public class TaschenrechnerActivity extends Activity {
                     String text = rechnung.getText().toString();
                     list1.add(text);
                     list1.add("!");
+                    changeColor6(fakultät);
                     rechnung.setText("");
                 }
             });
@@ -340,7 +362,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("sin");
-                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(sin);
                 }
             });
@@ -351,7 +373,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("cos");
-                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(cos);
                 }
             });
@@ -362,7 +384,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("tan");
-                    Toast.makeText(TaschenrechnerActivity.this, "Winkelgröße in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(tan);
                 }
             });
@@ -373,7 +395,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("ln");
-                    Toast.makeText(TaschenrechnerActivity.this, "Wert in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(ln);
                 }
             });
@@ -384,7 +406,7 @@ public class TaschenrechnerActivity extends Activity {
                 public void onClick(View v) {
                     String text = rechnung.getText().toString();
                     list1.add("log");
-                    Toast.makeText(TaschenrechnerActivity.this, "Wert in Klammern eingeben", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaschenrechnerActivity.this, "Terme in Klammern eingeben", Toast.LENGTH_SHORT).show();
                     changeColor2(log);
                 }
             });
@@ -399,7 +421,8 @@ public class TaschenrechnerActivity extends Activity {
                 umwandlung.clear();
                 list1.clear();
                 list2.clear();
-                previousClickedButton.first.setBackground(previousClickedButton.second);
+                changeColor3(clear);
+
             }
         });
         backspace.setOnClickListener(new OnClickListener() {
@@ -410,191 +433,192 @@ public class TaschenrechnerActivity extends Activity {
                 if (rechnung.length() > 0) {
                     buff.deleteCharAt(rechnung.length() - 1);
                     rechnung.setText(buff);
+                    previousClickedButton.first.setBackground(previousClickedButton.second);
                 }
             }
         });
         gleich.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = rechnung.getText().toString();
-                previousClickedButton.first.setBackground(previousClickedButton.second);
-                list1.add(text);
-                rechnung.setText(" ");
-                for (String element : list1) {
-                    if (element == "(" || element == ")" || element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log" || element == ")" || element == "") {
-                        if (element == "(") {
-                            umwandlung.push(element);
-                        } else if (element == "+" || element == "-") {
-                            while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
-                                list2.add(umwandlung.pop());
-                            }
-                            umwandlung.push(element);
-                        } else if (element == "*" || element == "/") {
-                            while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
-                                if (umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^") {
+                try {
+                    String text = rechnung.getText().toString();
+                    changeColor3(gleich);
+                    list1.add(text);
+                    rechnung.setText(" ");
+                    for (String element : list1) {
+                        if (element == "(" || element == ")" || element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log" || element == ")" || element == "" || element == " ") {
+                            if (element == "(") {
+                                umwandlung.push(element);
+                            } else if (element == "+" || element == "-") {
+                                while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
                                     list2.add(umwandlung.pop());
-                                } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
-                                    umwandlung2.push(umwandlung.pop());
                                 }
-                            }
-                            while (!umwandlung2.empty()) {
-                                umwandlung.push(umwandlung2.pop());
-                            }
-                            umwandlung.push(element);
-                        } else if (element == "^") {
-                            while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
-                                if (umwandlung.peek() == "^") {
+                                umwandlung.push(element);
+                            } else if (element == "*" || element == "/") {
+                                while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
+                                    if (umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^") {
+                                        list2.add(umwandlung.pop());
+                                    } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
+                                        umwandlung2.push(umwandlung.pop());
+                                    }
+                                }
+                                while (!umwandlung2.empty()) {
+                                    umwandlung.push(umwandlung2.pop());
+                                }
+                                umwandlung.push(element);
+                            } else if (element == "^") {
+                                while (!umwandlung.empty() && umwandlung.peek() != ("(")) {
+                                    if (umwandlung.peek() == "^") {
+                                        list2.add(umwandlung.pop());
+                                    } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
+                                        umwandlung2.push(umwandlung.pop());
+                                    } else if (umwandlung.peek() == "*" || umwandlung.peek() == "/") {
+                                        umwandlung2.push(umwandlung.pop());
+                                    }
+                                }
+                                while (!umwandlung2.empty()) {
+                                    umwandlung.push(umwandlung2.pop());
+                                }
+                                umwandlung.push(element);
+                            } else if (element == "W" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log") {
+                                umwandlung.push(element);
+                            } else if (element == "!") {
+                                list2.add(element);
+                            } else if (element == ")") {
+                                while (umwandlung.peek() != ("(")) {
                                     list2.add(umwandlung.pop());
-                                } else if (umwandlung.peek() == "+" || umwandlung.peek() == "-") {
-                                    umwandlung2.push(umwandlung.pop());
-                                } else if (umwandlung.peek() == "*" || umwandlung.peek() == "/") {
-                                    umwandlung2.push(umwandlung.pop());
                                 }
+                                if (umwandlung.peek() == ("(")) {
+                                    int l = umwandlung.search("W");
+                                    int m = umwandlung.search("sin");
+                                    int n = umwandlung.search("cos");
+                                    int o = umwandlung.search("tan");
+                                    int p = umwandlung.search("ln");
+                                    int q = umwandlung.search("log");
+                                    if (l == 2) {
+                                        list2.add("W");
+                                        umwandlung.remove("W");
+                                    } else if (m == 2) {
+                                        list2.add("sin");
+                                        umwandlung.remove("sin");
+                                    } else if (n == 2) {
+                                        list2.add("cos");
+                                        umwandlung.remove("cos");
+                                    } else if (o == 2) {
+                                        list2.add("tan");
+                                        umwandlung.remove("tan");
+                                    } else if (p == 2) {
+                                        list2.add("ln");
+                                        umwandlung.remove("ln");
+                                    } else if (q == 2) {
+                                        list2.add("log");
+                                        umwandlung.remove("log");
+                                    }
+                                }
+                            } else if (element == "") {
+                                list1.remove("");
+                            } else if (element == " ") {
+                                list1.remove(" ");
                             }
-                            while (!umwandlung2.empty()) {
-                                umwandlung.push(umwandlung2.pop());
-                            }
-                            umwandlung.push(element);
-                        } else if (element == "W" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log") {
-                            umwandlung.push(element);
-                        } else if (element == "!") {
+                        } else {
                             list2.add(element);
-                        } else if (element == ")") {
-                            while (umwandlung.peek() != ("(")) {
-                                list2.add(umwandlung.pop());
-                            }
-                            if (umwandlung.peek() == ("(")) {
-                                int l = umwandlung.search("W");
-                                int m = umwandlung.search("sin");
-                                int n = umwandlung.search("cos");
-                                int o = umwandlung.search("tan");
-                                int p = umwandlung.search("ln");
-                                int q = umwandlung.search("log");
-                                if (l == 2) {
-                                    list2.add("W");
-                                    umwandlung.remove("W");
-                                } else if (m == 2) {
-                                    list2.add("sin");
-                                    umwandlung.remove("sin");
-                                } else if (n == 2) {
-                                    list2.add("cos");
-                                    umwandlung.remove("cos");
-                                } else if (o == 2) {
-                                    list2.add("tan");
-                                    umwandlung.remove("tan");
-                                } else if (p == 2) {
-                                    list2.add("ln");
-                                    umwandlung.remove("ln");
-                                } else if (q == 2) {
-                                    list2.add("log");
-                                    umwandlung.remove("log");
-                                }
-                            }
-                        } else if (element == "") {
-                            list1.remove("");
-                        } else if (element == " ") {
-                            list1.remove(" ");
                         }
-                    } else {
-                        list2.add(element);
                     }
-                }
-                while (!umwandlung.empty()) {
-                    if (umwandlung.peek() == "+" || umwandlung.peek() == "-" || umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^" || umwandlung.peek() == "W" || umwandlung.peek() == "!" || umwandlung.peek() == "sin" || umwandlung.peek() == "cos" || umwandlung.peek() == "tan" || umwandlung.peek() == "ln" || umwandlung.peek() == "log") {
-                        list2.add(umwandlung.pop());
-                    } else if (umwandlung.peek() == "(") {
-                        umwandlung.pop();
-                    }
-                }
-                for (String element : list2) {
-                    if (!(element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log")) {
-                        stack.push(parseDouble(element));
-                    } else if (element == "+" || element == "-" || element == "*" || element == "/" || element == "^") {
-                        double rechts = stack.pop();
-                        double links = stack.pop();
-                        double a = 0.0;
-                        if (element == "+") {
-                            a = links + rechts;
-                        } else if (element == "-") {
-                            a = links - rechts;
-                        } else if (element == "*") {
-                            a = links * rechts;
-                        } else if (element == "/") {
-                            a = links / rechts;
-                        } else if (element == "^") {
-                            a = Math.pow(links, rechts);
+                    while (!umwandlung.empty()) {
+                        if (umwandlung.peek() == "+" || umwandlung.peek() == "-" || umwandlung.peek() == "*" || umwandlung.peek() == "/" || umwandlung.peek() == "^" || umwandlung.peek() == "W" || umwandlung.peek() == "!" || umwandlung.peek() == "sin" || umwandlung.peek() == "cos" || umwandlung.peek() == "tan" || umwandlung.peek() == "ln" || umwandlung.peek() == "log") {
+                            list2.add(umwandlung.pop());
+                        } else if (umwandlung.peek() == "(") {
+                            umwandlung.pop();
                         }
-                        stack.push(a);
-                    } else if (element == "W") {
-                        double radikand = stack.pop();
-                        double a = 0.0;
-                        a = Math.sqrt(radikand);
-                        stack.push(a);
-                    } else if (element == "sin") {
-                        double sin = stack.pop();
-                        double a = 0.0;
-                        a = Math.sin(sin);
-                        stack.push(a);
-                    } else if (element == "cos") {
-                        double cos = stack.pop();
-                        double a = 0.0;
-                        a = Math.cos(cos);
-                        stack.push(a);
-                    } else if (element == "tan") {
-                        double tan = stack.pop();
-                        double a = 0.0;
-                        a = Math.tan(tan);
-                        stack.push(a);
-                    } else if (element == "ln") {
-                        double ln = stack.pop();
-                        double a = 0.0;
-                        a = Math.log(ln);
-                        stack.push(a);
-                    } else if (element == "log") {
-                        double log = stack.pop();
-                        double a = 0.0;
-                        a = Math.log10(log);
-                        stack.push(a);
-                    } else if (element == "!") {
-                        double popedDouble = stack.pop();
-                        long factvar = (long) popedDouble;
-                        stack.push(Double.parseDouble(fact(factvar) + ""));
                     }
+                    for (String element : list2) {
+                        if (!(element == "+" || element == "-" || element == "*" || element == "/" || element == "^" || element == "W" || element == "!" || element == "sin" || element == "cos" || element == "tan" || element == "ln" || element == "log")) {
+                            stack.push(parseDouble(element));
+                        } else if (element == "+" || element == "-" || element == "*" || element == "/" || element == "^") {
+                            double rechts = stack.pop();
+                            double links = stack.pop();
+                            double a = 0.0;
+                            if (element == "+") {
+                                a = links + rechts;
+                            } else if (element == "-") {
+                                a = links - rechts;
+                            } else if (element == "*") {
+                                a = links * rechts;
+                            } else if (element == "/") {
+                                a = links / rechts;
+                            } else if (element == "^") {
+                                a = Math.pow(links, rechts);
+                            }
+                            stack.push(a);
+                        } else if (element == "W") {
+                            double radikand = stack.pop();
+                            double a = 0.0;
+                            a = Math.sqrt(radikand);
+                            stack.push(a);
+                        } else if (element == "sin") {
+                            double sin = stack.pop();
+                            double a = 0.0;
+                            a = Math.sin(sin);
+                            stack.push(a);
+                        } else if (element == "cos") {
+                            double cos = stack.pop();
+                            double a = 0.0;
+                            a = Math.cos(cos);
+                            stack.push(a);
+                        } else if (element == "tan") {
+                            double tan = stack.pop();
+                            double a = 0.0;
+                            a = Math.tan(tan);
+                            stack.push(a);
+                        } else if (element == "ln") {
+                            double ln = stack.pop();
+                            double a = 0.0;
+                            a = Math.log(ln);
+                            stack.push(a);
+                        } else if (element == "log") {
+                            double log = stack.pop();
+                            double a = 0.0;
+                            a = Math.log10(log);
+                            stack.push(a);
+                        } else if (element == "!") {
+                            double popedDouble = stack.pop();
+                            long factvar = (long) popedDouble;
+                            stack.push(Double.parseDouble(fact(factvar) + ""));
+                        }
+                    }
+                    ergebnis.setText(Double.toString(stack.pop()));
+                    list1.clear();
+                    //rechnung.setText("ERROR");
                 }
-                ergebnis.setText(Double.toString(stack.pop()));
-                list1.clear();
-                //rechnung.setText("ERROR");
+                catch (EmptyStackException ex)
+                {
+                    ergebnis.setText("ERROR");
+                }
+                catch (ConcurrentModificationException ex)
+                {
+                    ergebnis.setText("ERROR");
+                }
             }
         });
         client2 = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-    public long fact(long n) {
-        if (n == 1) {
-            return 1;
-        } else {
-            return fact(n - 1) * n;
-        }
-    }
+                public long fact(long n) {
+                    if (n == 1) {
+                       return 1;
+                    } else {
+                        return fact(n - 1) * n;
+                    }
+                }
     public void changeColor1(Button currentButton) {
         if (previousClickedButton != null) {
             previousClickedButton.first.setBackground(previousClickedButton.second);
-            String text = (String) rechnung.getText();
-            if (list1.lastIndexOf(")") != list1.size()-1) {
-                if (currentButton == addition && text == " " || text == "") {
-                    list1.remove(list1.size() - 1);
-                } else if (currentButton == subtraktion && text == " " || text == "") {
-                    list1.remove(list1.size() - 1);
-                } else if (currentButton == multiplikation && text == " " || text == "") {
-                    list1.remove(list1.size() - 1);
-                } else if (currentButton == division && text == " " || text == "") {
-                    list1.remove(list1.size() - 1);
-                }
-            }
         }
+        if (currentButton == addition || currentButton == subtraktion || currentButton == multiplikation || currentButton == division) {
             previousClickedButton = Pair.create(currentButton, currentButton.getBackground());
             currentButton.setBackground(getDrawable(R.drawable.button_change2));
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            potenz.setBackground(getDrawable(R.drawable.button_border3));
+        } else {
+            previousClickedButton = Pair.create(currentButton, currentButton.getBackground());
+            currentButton.setBackground(getDrawable(R.drawable.button_change3));
         }
     }
     public void changeColor2 (Button buttonAn) {
@@ -605,7 +629,7 @@ public class TaschenrechnerActivity extends Activity {
             }
         }
     }
-    public void changeColor3 (Button alle) {
+    public void changeColor3 (Button currentButton) {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             sin.setBackground(getDrawable(R.drawable.button_border3));
             cos.setBackground(getDrawable(R.drawable.button_border3));
@@ -616,16 +640,25 @@ public class TaschenrechnerActivity extends Activity {
             potenz.setBackground(getDrawable(R.drawable.button_border3));
             fakultät.setBackground(getDrawable(R.drawable.button_border3));
             klammerAuf.setBackground(getDrawable(R.drawable.button_border3));
-        }
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        } else {
             klammerAuf.setBackground(getDrawable(R.drawable.button_border2));
         }
         addition.setBackground(getDrawable(R.drawable.button_border2));
         subtraktion.setBackground(getDrawable(R.drawable.button_border2));
         multiplikation.setBackground(getDrawable(R.drawable.button_border2));
         division.setBackground(getDrawable(R.drawable.button_border2));
+        one.setBackground(getDrawable(R.drawable.button_border));
+        two.setBackground(getDrawable(R.drawable.button_border));
+        three.setBackground(getDrawable(R.drawable.button_border));
+        four.setBackground(getDrawable(R.drawable.button_border));
+        five.setBackground(getDrawable(R.drawable.button_border));
+        six.setBackground(getDrawable(R.drawable.button_border));
+        seven.setBackground(getDrawable(R.drawable.button_border));
+        eight.setBackground(getDrawable(R.drawable.button_border));
+        nine.setBackground(getDrawable(R.drawable.button_border));
+        zero.setBackground(getDrawable(R.drawable.button_border));
     }
-    public void changeColor4 (Button operatoren) {
+    public void changeColor4 (Button currentButton) {
         addition.setBackground(getDrawable(R.drawable.button_border2));
         subtraktion.setBackground(getDrawable(R.drawable.button_border2));
         multiplikation.setBackground(getDrawable(R.drawable.button_border2));
@@ -644,8 +677,13 @@ public class TaschenrechnerActivity extends Activity {
             }
         }
     }
-
-
+    public void changeColor6(Button currentButton) {
+        if (previousClickedButton != null) {
+            previousClickedButton.first.setBackground(previousClickedButton.second);
+        }
+            previousClickedButton = Pair.create(currentButton, currentButton.getBackground());
+            currentButton.setBackground(getDrawable(R.drawable.button_change1));
+    }
     @Override
     public void onStart() {
        super.onStart();
@@ -663,7 +701,6 @@ public class TaschenrechnerActivity extends Activity {
         );
         AppIndex.AppIndexApi.start(client2, viewAction);
     }
-
     @Override
     public void onStop() {
         super.onStop();
