@@ -1,19 +1,24 @@
 package com.example.kieferl.hallowelt.app;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
+
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
-import android.content.Intent;
-import android.widget.ShareActionProvider;
+import android.util.Log;
+import android.content.DialogInterface;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -23,17 +28,8 @@ import static android.app.PendingIntent.getActivity;
 
 public class ListenUebersichtMainActivity extends ActionBarActivity {
 
-    private Button button;
-    private TextView listenName1;
-    private TextView listenName2;
-    private TextView listenName3;
-    private TextView listenName4;
-    private TextView listenName5;
-    private TextView listenName6;
-    private TextView listenName7;
-    private TextView listenName8;
-    private TextView listenName9;
-    private TextView listenName10;
+    private TextView listenName;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -45,29 +41,20 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_item_listenuebersicht);
 
-        button = (Button) findViewById(R.id.button);
-        listenName1 = (TextView) findViewById(R.id.listenName1);
-        listenName2 = (TextView) findViewById(R.id.listenName2);
-        listenName3 = (TextView) findViewById(R.id.listenName3);
-        listenName4 = (TextView) findViewById(R.id.listenName4);
-        listenName5 = (TextView) findViewById(R.id.listenName5);
-        listenName6 = (TextView) findViewById(R.id.listenName6);
-        listenName7 = (TextView) findViewById(R.id.listenName7);
-        listenName8 = (TextView) findViewById(R.id.listenName8);
-        listenName9 = (TextView) findViewById(R.id.listenName9);
-        listenName10 = (TextView) findViewById(R.id.listenName10);
+        listenName = (TextView) findViewById(R.id.listenName);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
 
-        button.setOnClickListener(new OnClickListener() {
+        /**button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
                 startActivity(i);
             }
-        });
+        });*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,12 +67,9 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int idS = item.getItemId();
         if (idS == R.id.action_settings) {
-            Toast.makeText(ListenUebersichtMainActivity.this,"Nicht so neugierig!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        int idTe = item.getItemId();
-        if (idTe == R.id.liste_teilen) {
-            Toast.makeText(ListenUebersichtMainActivity.this,"Mit Entwickler geteilt!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListenUebersichtMainActivity.this, "Nicht so neugierig!", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
+            startActivity(i);
             return true;
         }
         int idTa = item.getItemId();
@@ -94,8 +78,41 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
             startActivity(i);
             return true;
         }
+        int idNL = item.getItemId();
+        if (idNL == R.id.action_neueListe) {
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListenUebersichtMainActivity.this);
+            alertDialog.setTitle("Neue Liste erstellen");
+
+            final EditText inputlN = new EditText(ListenUebersichtMainActivity.this);
+            inputlN.setHint("Listenname");
+
+            LinearLayout ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            ll.addView(inputlN);
+
+            alertDialog.setView(ll);
+
+            alertDialog.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            listenName.setText(inputlN.getText());
+                            Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
+                            startActivity(i);
+                        }
+                    });
+            alertDialog.setNegativeButton("Beenden",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            alertDialog.show();
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public void onStart() {
@@ -136,6 +153,7 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
 
 
 }

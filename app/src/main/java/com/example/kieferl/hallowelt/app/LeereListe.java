@@ -5,45 +5,56 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ShareActionProvider;
+import android.widget.Toast;
 
 public class LeereListe extends ActionBarActivity {
 
-    private TextView listenName;
-    private EditText listenelement1;
+    private CheckBox done;
+    private EditText listenelement;
+    private TextView kategorie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leere_liste);
 
-        listenName = (TextView) findViewById(R.id.listenName);
-        listenelement1 = (EditText) findViewById(R.id.listenelement1);
+        done = (CheckBox) findViewById(R.id.done);
+        listenelement = (EditText) findViewById(R.id.listenelement);
+        kategorie = (TextView) findViewById(R.id.kategorie);
 
     }
-    /**private ShareActionProvider mShareActionProvider;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.liste_teilen);
-        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-        setShareIntent(createShareIntent());
-
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_leere_liste, menu);
         return true;
     }
-    private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int idTe = item.getItemId();
+        if (idTe == R.id.liste_teilen) {
+            Toast.makeText(LeereListe.this, "Mit Entwickler geteilt!", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        int idLe = item.getItemId();
+        if (idLe == R.id.liste_leeren) {
+            Toast.makeText(LeereListe.this, "Liste nicht geleert!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        int idUm = item.getItemId();
+        if (idUm == R.id.liste_umbenennen) {
+            Toast.makeText(LeereListe.this, "Listenname schon schön genug!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
-    private Intent createShareIntent() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                "http://stackandroid.com");
-        return shareIntent;
-    }*/
 }

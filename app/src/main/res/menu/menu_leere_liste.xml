@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LeereListe">
+
+    <item
+        android:id="@+id/liste_teilen"
+        android:title="Teilen"
+        android:orderInCategory="10"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        />
+    <item
+        android:id="@+id/liste_leeren"
+        android:title="Liste leeren"
+        android:orderInCategory="5"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        />
+    <item
+        android:id="@+id/liste_umbenennen"
+        android:title="Liste umbenennen"
+        android:orderInCategory="3"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        />
+</menu>
