@@ -96,8 +96,6 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             listenName.setText(inputlN.getText());
-                            Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
-                            startActivity(i);
                         }
                     });
             alertDialog.setNegativeButton("Beenden",
