@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,5 +42,181 @@
                 android:textSize="10pt"
                 android:gravity="left" />
         </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement1"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement2"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement3"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement4"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement5"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement6"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement7"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement8"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement9"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement10"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
+        <TableRow>
+            <CheckBox
+                android:id="@+id/done11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_vertical" />
+            <EditText
+                android:id="@+id/listenelement11"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="10pt"
+                android:gravity="left" />
+        </TableRow>
     </TableLayout>
-</FrameLayout>
+</ScrollView>
