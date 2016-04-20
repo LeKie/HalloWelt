@@ -8,4 +8,5 @@
     <string name="title_activity_main">DeineListen</string>
     <string name="liste_umbenennen">Liste umbenennen</string>
     <string name="liste_leeren">Liste leeren</string>
+    <string name="listen_löschen">Listen löschen</string>
 </resources>

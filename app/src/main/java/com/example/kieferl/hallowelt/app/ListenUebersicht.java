@@ -1,8 +1,5 @@
 package com.example.kieferl.hallowelt.app;
 
-import android.text.Editable;
-import android.widget.EditText;
-
 /**
  * Created by kieferl on 19.04.2016.
  */

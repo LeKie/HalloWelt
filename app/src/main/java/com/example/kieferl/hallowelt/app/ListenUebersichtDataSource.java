@@ -2,11 +2,9 @@ package com.example.kieferl.hallowelt.app;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +62,39 @@ public class ListenUebersichtDataSource {
 
         return listenUebersicht;
     }
+    public void deleteListeName(ListenUebersicht overviewList) {
+        long id = overviewList.getId();
+
+        database.delete(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
+                ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+                null);
+    }
+    public ListenUebersicht updateListenUebersicht (long id, String newName) {
+        ContentValues values = new ContentValues();
+        values.put(ListenUebersichtDbHelper.COLUMN_NAME, newName);
+
+        database.update(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
+                values,
+                ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+                null);
+
+        Cursor cursor = database.query(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
+                columns, ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+                null, null, null, null);
+
+        cursor.moveToFirst();
+        ListenUebersicht overviewList = cursorToListenUebersicht(cursor);
+        cursor.close();
+
+        return overviewList;
+    }
 
     public List<ListenUebersicht> getAllListNames() {
         List<ListenUebersicht> listenUebersicht = new ArrayList<>();
 
         Cursor cursor = database.query(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
                 columns, null, null, null, null, null);
-        
+
             cursor.moveToFirst();
             ListenUebersicht overviewList;
 
@@ -79,7 +103,6 @@ public class ListenUebersichtDataSource {
                 listenUebersicht.add(overviewList);
                 cursor.moveToNext();
             }
-
         cursor.close();
         return listenUebersicht;
     }

@@ -20,6 +20,6 @@
         android:id="@+id/action_neueListe"
         android:title="Neue Liste"
         android:orderInCategory="1"
-        android:actionProviderClass="android.widget.ShareActionProvider"
+        app:showAsAction="never"
         />
 </menu>

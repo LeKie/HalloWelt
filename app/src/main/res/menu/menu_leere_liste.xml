@@ -8,18 +8,21 @@
         android:id="@+id/liste_teilen"
         android:title="Teilen"
         android:orderInCategory="10"
-        android:actionProviderClass="android.widget.ShareActionProvider"
         />
     <item
         android:id="@+id/liste_leeren"
         android:title="Liste leeren"
         android:orderInCategory="5"
-        android:actionProviderClass="android.widget.ShareActionProvider"
         />
     <item
         android:id="@+id/liste_umbenennen"
         android:title="Liste umbenennen"
         android:orderInCategory="3"
-        android:actionProviderClass="android.widget.ShareActionProvider"
+
+        />
+    <item
+        android:id="@+id/neues_element"
+        android:title="Neuer Eintrag"
+        android:orderInCategory="1"
         />
 </menu>

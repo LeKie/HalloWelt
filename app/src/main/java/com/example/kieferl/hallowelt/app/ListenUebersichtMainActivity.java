@@ -7,6 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.widget.AbsListView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +23,8 @@ import android.widget.ListView;
 import android.database.Cursor;
 
 import android.text.TextUtils;
+
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
@@ -37,7 +43,6 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public static final String LOG_TAG = ListenUebersichtMainActivity.class.getSimpleName();
 
     private GoogleApiClient client;
     private ListenUebersichtDataSource dataSource;
@@ -48,12 +53,21 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_listenuebersicht_main);
 
-        showAllListEntries();
+        dataSource = new ListenUebersichtDataSource(this);
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        initializeContextualActionBar();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
         @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int idS = item.getItemId();
         if (idS == R.id.action_settings) {
             Toast.makeText(ListenUebersichtMainActivity.this, "Nicht so neugierig!", Toast.LENGTH_SHORT).show();
@@ -81,18 +95,23 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
 
             alertDialog.setView(ll);
 
-            alertDialog.setPositiveButton("OK",
+            AlertDialog.Builder builder = alertDialog.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             String name = listName.getText().toString();
-                            if(TextUtils.isEmpty(name)) {
-                                listName.setError(getString(Integer.parseInt("Error")));
-                                return;
-                            } else {
-                                listName.setText("");
-                                dataSource.createListOverview(name);
+                            try {
+                                if (TextUtils.isEmpty(name)) {
+                                    listName.setError(getString(Integer.parseInt("Error")));
+                                    return;
+                                } else {
+                                    listName.setText("");
+                                    dataSource.createListOverview(name);
+                                }
+                                showAllListEntries();
+                            } catch (NumberFormatException ex) {
+                                Toast.makeText(ListenUebersichtMainActivity.this, "Listennamen eingeben", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
                             }
-                            showAllListEntries ();
                         }
                     });
             alertDialog.setNegativeButton("Beenden",
@@ -105,20 +124,6 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
-    }
-    /**button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
-                startActivity(i);
-            }
-        });*/
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
@@ -141,12 +146,65 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         AppIndex.AppIndexApi.start(client, viewAction);
     }
 
+    private void initializeContextualActionBar() {
+
+        final ListView overviewListView = (ListView) findViewById(R.id.list_listenuebersicht_main);
+        overviewListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        overviewListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_contextual_a_b_mainactivity, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.action_listenLöschen:
+                        SparseBooleanArray touchedOverviewListsPositions = overviewListView.getCheckedItemPositions();
+                        for (int i = 0; i < touchedOverviewListsPositions.size(); i++) {
+                            boolean isChecked = touchedOverviewListsPositions.valueAt(i);
+                            if (isChecked) {
+                                int postitionInListView = touchedOverviewListsPositions.keyAt(i);
+                                ListenUebersicht overviewList = (ListenUebersicht) overviewListView.getItemAtPosition(postitionInListView);
+                                dataSource.deleteListeName(overviewList);
+                            }
+                        }
+                        showAllListEntries();
+                        mode.finish();
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+    }
+
     private void showAllListEntries() {
         List<ListenUebersicht> overviewList = dataSource.getAllListNames();
 
         ArrayAdapter<ListenUebersicht> listenUebersichtArrayAdapter = new ArrayAdapter<> (
                 this,
-                android.R.layout.simple_list_item_multiple_choice,
+                android.R.layout.simple_selectable_list_item,
                 overviewList);
 
         ListView listNamesListView = (ListView) findViewById(R.id.list_listenuebersicht_main);
