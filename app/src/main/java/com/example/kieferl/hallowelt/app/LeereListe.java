@@ -6,11 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -42,6 +45,8 @@ public class LeereListe extends ActionBarActivity {
         setContentView(R.layout.leere_liste);
 
         dataSource = new ListeDataSource(this);
+
+        initializeContextualActionBar();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -97,6 +102,8 @@ public class LeereListe extends ActionBarActivity {
                             String text = eintragName.getText().toString();
                             Integer prio = Integer.valueOf(prioritätText.getText().toString());
                             String date = String.valueOf(datePicker.getDayOfMonth()+ "." + datePicker.getMonth() + 1 + "." + datePicker.getYear());
+                            Integer listId = 1;
+                            Boolean isD = true;
                             try {
                                 if (TextUtils.isEmpty(text)) {
                                     Toast.makeText(LeereListe.this, "Falsche eingabe", Toast.LENGTH_SHORT).show();
@@ -104,7 +111,7 @@ public class LeereListe extends ActionBarActivity {
                                 } else {
                                     eintragName.setText("");
                                     prioritätText.setText("");
-                                    dataSource.createListList(text, prio, date);
+                                    dataSource.createListList(text, prio, date, listId, isD);
                                 }
 
                                 showAllListEntries();
@@ -127,6 +134,58 @@ public class LeereListe extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void initializeContextualActionBar() {
+
+        final ListView listListView = (ListView) findViewById(R.id.leere_liste);
+        listListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        listListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_contextual_a_b_mainactivity, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.action_listenLöschen:
+                        SparseBooleanArray touchedListListsPositions = listListView.getCheckedItemPositions();
+                        for (int i = 0; i < touchedListListsPositions.size(); i++) {
+                            boolean isChecked = touchedListListsPositions.valueAt(i);
+                            if (isChecked) {
+                                int postitionInListView = touchedListListsPositions.keyAt(i);
+                                ListeListe listList = (ListeListe) listListView.getItemAtPosition(postitionInListView);
+                                dataSource.deleteElement(listList);
+                            }
+                        }
+                        showAllListEntries();
+                        mode.finish();
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+    }
     private void showAllListEntries() {
         List<ListeListe> listList = dataSource.getAllListItems();
 

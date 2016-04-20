@@ -40,15 +40,15 @@ public class ListeDataSource {
         dbHelper.close();
     }
 
-    public ListeListe createListList(String text, int prio, String date) {
+    public ListeListe createListList(String text, int prio, String date, int listId, boolean isD) {
         ContentValues values = new ContentValues();
         values.put(ListeDbHelper.COLUMN_TEXT, text);
         values.put(ListeDbHelper.COLUMN_PRIO, prio);
         values.put(ListeDbHelper.COLUMN_DATE, date);
-        //values.put(ListeDbHelper.COLUMN_LIST_ID, listId);
-        //values.put(ListeDbHelper.COLUMN_IS_DONE, isD);
+        values.put(ListeDbHelper.COLUMN_LIST_ID, listId);
+        values.put(ListeDbHelper.COLUMN_IS_DONE, isD);
 
-        long insertId = database.insert(ListeDbHelper.TABLE_LIST_LIST, null, values);
+        int insertId = (int) database.insert(ListeDbHelper.TABLE_LIST_LIST, null, values);
 
         Cursor cursor = database.query(ListeDbHelper.TABLE_LIST_LIST,
                 columns, ListeDbHelper.COLUMN_ID + "=" + insertId,
@@ -71,8 +71,8 @@ public class ListeDataSource {
 
         String text = cursor.getString(idText);
         String date = cursor.getString(idDate);
-        long id = cursor.getLong(idIndex);
-        long listId = cursor.getLong(idListId);
+        int id = cursor.getInt(idIndex);
+        int listId = cursor.getInt(idListId);
         int prio = cursor.getInt(idPrio);
         boolean isD = cursor.equals(idIsD);
 

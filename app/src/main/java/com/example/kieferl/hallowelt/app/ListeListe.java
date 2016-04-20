@@ -8,13 +8,13 @@ import android.widget.EditText;
  */
 public class ListeListe {
     private String text;
-    private Integer prio;
+    private int prio;
     private String date;
-    private long id;
-    private long listId;
+    private int id;
+    private int listId;
     private boolean isD;
 
-    public ListeListe(String text, String date, long id, long listId, Integer prio, boolean isD) {
+    public ListeListe(String text, String date, int id, int listId, int prio, boolean isD) {
         this.text = text;
         this.prio = prio;
         this.date = date;
@@ -30,10 +30,10 @@ public class ListeListe {
         this.text = text;
     }
 
-    public Integer getPrio(Integer prio) {
+    public int getPrio() {
         return prio;
     }
-    public void setPrio(Integer prio) {
+    public void setPrio(int prio) {
         this.prio = prio;
     }
 
@@ -45,21 +45,21 @@ public class ListeListe {
         this.date = date;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getListId() {
+    public int getListId() {
         return listId;
     }
-    public void setListeId(long listId) {
+    public void setListeId(int listId) {
         this.listId = listId;
     }
 
-    public boolean getIsD(boolean isD) {
+    public boolean getIsD() {
         return isD;
     }
     public void setIsD(boolean isD) {
