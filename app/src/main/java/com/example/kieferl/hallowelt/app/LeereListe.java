@@ -1,7 +1,9 @@
 package com.example.kieferl.hallowelt.app;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
@@ -13,16 +15,22 @@ import android.view.MenuItem;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
+
+import android.database.Cursor;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -33,6 +41,19 @@ import java.util.List;
 public class LeereListe extends ActionBarActivity {
 
     private ListeDataSource dataSource;
+    private ListDbHelper dbHelper;
+    private int listId;
+    private SQLiteDatabase database;
+    private String[] columns = {
+            ListDbHelper.COLUMN_ID,
+            ListDbHelper.COLUMN_LIST_ID,
+            ListDbHelper.COLUMN_PRIO,
+            ListDbHelper.COLUMN_TEXT,
+            ListDbHelper.COLUMN_DATE,
+            ListDbHelper.COLUMN_IS_DONE
+
+    };
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -45,11 +66,24 @@ public class LeereListe extends ActionBarActivity {
         setContentView(R.layout.leere_liste);
 
         dataSource = new ListeDataSource(this);
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         initializeContextualActionBar();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        listId = getIntent().getIntExtra("listId", -1);
+
+       // Toast.makeText(this, String.valueOf(listId), Toast.LENGTH_SHORT).show();
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                        Bundle saveInstanceState) {
+        View rootView = inflater.inflate(R.layout.leere_liste, container, false);
+
+        Intent empfangenerIntent = this.getIntent();
+        if (empfangenerIntent != null && empfangenerIntent.hasExtra("listId")) {
+            String listList = empfangenerIntent.getStringExtra("listId");
+            ((TextView) rootView.findViewById(R.id.leere_liste_item_textview)).setText(listList);
+        }
+        return rootView;
     }
 
     @Override
@@ -60,7 +94,7 @@ public class LeereListe extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int idTe = item.getItemId();
         if (idTe == R.id.liste_teilen) {
             Toast.makeText(LeereListe.this, "Mit Entwickler geteilt!", Toast.LENGTH_SHORT).show();
@@ -86,13 +120,13 @@ public class LeereListe extends ActionBarActivity {
             final EditText prioritätText = new EditText(LeereListe.this);
             prioritätText.setHint("Priorität (1-3)");
             final DatePicker datePicker = new DatePicker(LeereListe.this);
-            datePicker.getFirstDayOfWeek();
+
 
             LinearLayout ll = new LinearLayout(this);
             ll.setOrientation(LinearLayout.VERTICAL);
             ll.addView(eintragName);
             ll.addView(prioritätText);
-            ll.addView(datePicker);
+            //ll.addView(datePicker);
 
             alertDialog.setView(ll);
 
@@ -101,9 +135,10 @@ public class LeereListe extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             String text = eintragName.getText().toString();
                             Integer prio = Integer.valueOf(prioritätText.getText().toString());
-                            String date = String.valueOf(datePicker.getDayOfMonth()+ "." + datePicker.getMonth() + 1 + "." + datePicker.getYear());
-                            Integer listId = 1;
-                            Boolean isD = true;
+                            String date = String.valueOf(datePicker.getDayOfMonth()+ "." + datePicker.getMonth() + "." + datePicker.getYear());
+                            long listId = 0;
+                            boolean isD = false;
+
                             try {
                                 if (TextUtils.isEmpty(text)) {
                                     Toast.makeText(LeereListe.this, "Falsche eingabe", Toast.LENGTH_SHORT).show();
@@ -148,7 +183,7 @@ public class LeereListe extends ActionBarActivity {
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                getMenuInflater().inflate(R.menu.menu_contextual_a_b_mainactivity, menu);
+                getMenuInflater().inflate(R.menu.menu_contextual_a_b_leereliste, menu);
                 return true;
             }
 
@@ -161,7 +196,7 @@ public class LeereListe extends ActionBarActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
 
-                    case R.id.action_listenLöschen:
+                    case R.id.action_eintragLöschen:
                         SparseBooleanArray touchedListListsPositions = listListView.getCheckedItemPositions();
                         for (int i = 0; i < touchedListListsPositions.size(); i++) {
                             boolean isChecked = touchedListListsPositions.valueAt(i);
@@ -186,12 +221,13 @@ public class LeereListe extends ActionBarActivity {
             }
         });
     }
+
     private void showAllListEntries() {
         List<ListeListe> listList = dataSource.getAllListItems();
 
         ArrayAdapter<ListeListe> listeListeArrayAdapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_selectable_list_item,
+                android.R.layout.simple_list_item_activated_1,
                 listList);
 
         ListView listItemsListView = (ListView) findViewById(R.id.leere_liste);
@@ -205,7 +241,7 @@ public class LeereListe extends ActionBarActivity {
         super.onResume();
 
         dataSource.open();
-
+        showAllListEntries();
 
     }
 

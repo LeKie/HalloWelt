@@ -10,11 +10,11 @@ public class ListeListe {
     private String text;
     private int prio;
     private String date;
-    private int id;
-    private int listId;
+    private long id;
+    private long listId;
     private boolean isD;
 
-    public ListeListe(String text, String date, int id, int listId, int prio, boolean isD) {
+    public ListeListe(String text,String date, long id, long listId, int prio, boolean isD) {
         this.text = text;
         this.prio = prio;
         this.date = date;
@@ -45,17 +45,17 @@ public class ListeListe {
         this.date = date;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getListId() {
+    public long getListId() {
         return listId;
     }
-    public void setListeId(int listId) {
+    public void setListeId(long listId) {
         this.listId = listId;
     }
 

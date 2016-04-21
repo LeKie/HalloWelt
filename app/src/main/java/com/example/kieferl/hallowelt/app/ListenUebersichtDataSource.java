@@ -16,16 +16,16 @@ import java.util.List;
 public class ListenUebersichtDataSource {
 
     private SQLiteDatabase database;
-    private ListenUebersichtDbHelper dbHelper;
+    private ListDbHelper dbHelper;
 
     private String[] columns = {
-            ListenUebersichtDbHelper.COLUMN_ID,
-            ListenUebersichtDbHelper.COLUMN_NAME,
+            ListDbHelper.COLUMN_LIST_ID,
+            ListDbHelper.COLUMN_NAME,
     };
 
 
     public ListenUebersichtDataSource(Context context) {
-        dbHelper = new ListenUebersichtDbHelper(context);
+        dbHelper = new ListDbHelper(context);
     }
     public void open() {
         database = dbHelper.getWritableDatabase();
@@ -34,14 +34,15 @@ public class ListenUebersichtDataSource {
     public void close() {
         dbHelper.close();
     }
+
     public ListenUebersicht createListOverview(String name) {
         ContentValues values = new ContentValues();
-        values.put(ListenUebersichtDbHelper.COLUMN_NAME, name);
+        values.put(ListDbHelper.COLUMN_NAME, name);
 
-        long insertId = database.insert(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST, null, values);
+        long insertId = database.insert(ListDbHelper.TABLE_OVERVIEW_LIST, null, values);
 
-        Cursor cursor = database.query(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
-                columns, ListenUebersichtDbHelper.COLUMN_ID + "=" + insertId,
+        Cursor cursor = database.query(ListDbHelper.TABLE_OVERVIEW_LIST,
+                columns, ListDbHelper.COLUMN_LIST_ID + "=" + insertId,
                 null, null, null, null);
 
         cursor.moveToFirst();
@@ -52,8 +53,8 @@ public class ListenUebersichtDataSource {
     }
 
     private ListenUebersicht cursorToListenUebersicht(Cursor cursor) {
-        int idIndex = cursor.getColumnIndex(ListenUebersichtDbHelper.COLUMN_ID);
-        int idName = cursor.getColumnIndex(ListenUebersichtDbHelper.COLUMN_NAME);
+        int idIndex = cursor.getColumnIndex(ListDbHelper.COLUMN_LIST_ID);
+        int idName = cursor.getColumnIndex(ListDbHelper.COLUMN_NAME);
 
         String name = cursor.getString(idName);
         long id = cursor.getLong(idIndex);
@@ -65,21 +66,21 @@ public class ListenUebersichtDataSource {
     public void deleteListeName(ListenUebersicht overviewList) {
         long id = overviewList.getId();
 
-        database.delete(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
-                ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+        database.delete(ListDbHelper.TABLE_OVERVIEW_LIST,
+                ListDbHelper.COLUMN_LIST_ID + "=" + id,
                 null);
     }
     public ListenUebersicht updateListenUebersicht (long id, String newName) {
         ContentValues values = new ContentValues();
-        values.put(ListenUebersichtDbHelper.COLUMN_NAME, newName);
+        values.put(ListDbHelper.COLUMN_NAME, newName);
 
-        database.update(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
+        database.update(ListDbHelper.TABLE_OVERVIEW_LIST,
                 values,
-                ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+                ListDbHelper.COLUMN_LIST_ID + "=" + id,
                 null);
 
-        Cursor cursor = database.query(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
-                columns, ListenUebersichtDbHelper.COLUMN_ID + "=" + id,
+        Cursor cursor = database.query(ListDbHelper.TABLE_OVERVIEW_LIST,
+                columns, ListDbHelper.COLUMN_LIST_ID + "=" + id,
                 null, null, null, null);
 
         cursor.moveToFirst();
@@ -92,7 +93,7 @@ public class ListenUebersichtDataSource {
     public List<ListenUebersicht> getAllListNames() {
         List<ListenUebersicht> listenUebersicht = new ArrayList<>();
 
-        Cursor cursor = database.query(ListenUebersichtDbHelper.TABLE_OVERVIEW_LIST,
+        Cursor cursor = database.query(ListDbHelper.TABLE_OVERVIEW_LIST,
                 columns, null, null, null, null, null);
 
             cursor.moveToFirst();

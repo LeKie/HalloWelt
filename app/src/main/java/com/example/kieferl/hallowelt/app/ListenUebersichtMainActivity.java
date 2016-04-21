@@ -11,6 +11,7 @@ import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.widget.AbsListView;
 
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.database.Cursor;
 
@@ -27,6 +30,7 @@ import android.text.TextUtils;
 import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import java.util.List;
 import android.util.Log;
 import android.content.DialogInterface;
@@ -46,7 +50,8 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
 
     private GoogleApiClient client;
     private ListenUebersichtDataSource dataSource;
-
+    private ListenUebersicht listenUebersicht;
+    private ListDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         initializeContextualActionBar();
+
     }
 
     @Override
@@ -71,8 +77,6 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         int idS = item.getItemId();
         if (idS == R.id.action_settings) {
             Toast.makeText(ListenUebersichtMainActivity.this, "Nicht so neugierig!", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
-            startActivity(i);
             return true;
         }
         int idTa = item.getItemId();
@@ -198,18 +202,26 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
             }
         });
     }
-
     private void showAllListEntries() {
         List<ListenUebersicht> overviewList = dataSource.getAllListNames();
 
         ArrayAdapter<ListenUebersicht> listenUebersichtArrayAdapter = new ArrayAdapter<> (
                 this,
-                android.R.layout.simple_selectable_list_item,
+                android.R.layout.simple_list_item_activated_1,
                 overviewList);
 
         ListView listNamesListView = (ListView) findViewById(R.id.list_listenuebersicht_main);
         if (listNamesListView != null) {
             listNamesListView.setAdapter(listenUebersichtArrayAdapter);
+
+            listNamesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
+                    i.putExtra(Intent.EXTRA_TEXT, id);
+                    startActivity(i);
+                }
+            });
         }
     }
 

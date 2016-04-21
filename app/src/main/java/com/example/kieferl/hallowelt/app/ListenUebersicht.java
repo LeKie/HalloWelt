@@ -1,5 +1,7 @@
 package com.example.kieferl.hallowelt.app;
 
+import android.widget.AdapterView;
+
 /**
  * Created by kieferl on 19.04.2016.
  */
@@ -22,6 +24,7 @@ public class ListenUebersicht {
     }
 
     public long getId() {
+
         return id;
     }
 
