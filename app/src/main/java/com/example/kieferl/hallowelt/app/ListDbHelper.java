@@ -36,7 +36,8 @@ public class ListDbHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_LIST =
             "CREATE TABLE " + TABLE_LIST_LIST +
                     "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "FOREIGN KEY(" + COLUMN_LIST_ID + ") REFERENCES " + TABLE_OVERVIEW_LIST + "_id"+
+                    "FOREIGN KEY(" + COLUMN_LIST_ID + ") REFERENCES " + TABLE_OVERVIEW_LIST + "listId"+
+                    "ON DELETE CASCADE" +    // ?
                     COLUMN_TEXT + " TEXT NOT NULL, " +
                     COLUMN_PRIO + " INTEGER NOT NULL, " +
                     COLUMN_DATE + " DATETIME, " +

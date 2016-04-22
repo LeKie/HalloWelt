@@ -52,6 +52,7 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
     private ListenUebersichtDataSource dataSource;
     private ListenUebersicht listenUebersicht;
     private ListDbHelper dbHelper;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +219,7 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
-                    i.putExtra(Intent.EXTRA_TEXT, id);
+                    i.putExtra("listId", id);
                     startActivity(i);
                 }
             });

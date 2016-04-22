@@ -36,13 +36,13 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LeereListe extends ActionBarActivity {
 
     private ListeDataSource dataSource;
     private ListDbHelper dbHelper;
-    private int listId;
     private SQLiteDatabase database;
     private String[] columns = {
             ListDbHelper.COLUMN_ID,
@@ -70,9 +70,6 @@ public class LeereListe extends ActionBarActivity {
 
         initializeContextualActionBar();
 
-        listId = getIntent().getIntExtra("listId", -1);
-
-       // Toast.makeText(this, String.valueOf(listId), Toast.LENGTH_SHORT).show();
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                         Bundle saveInstanceState) {
@@ -135,7 +132,7 @@ public class LeereListe extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             String text = eintragName.getText().toString();
                             Integer prio = Integer.valueOf(prioritätText.getText().toString());
-                            String date = String.valueOf(datePicker.getDayOfMonth()+ "." + datePicker.getMonth() + "." + datePicker.getYear());
+                            String date = String.valueOf(datePicker.getDayOfMonth() + "." + datePicker.getMonth() + "." + datePicker.getYear());
                             long listId = 0;
                             boolean isD = false;
 
@@ -221,9 +218,35 @@ public class LeereListe extends ActionBarActivity {
             }
         });
     }
+    public List<ListeListe> showElements() {
+        List<ListeListe> listList = new ArrayList<>();
+
+        String id = getIntent().getExtras().getString("listId");
+
+    try {
+        Cursor cursor = database.query(ListDbHelper.TABLE_LIST_LIST,
+                new String[]{ListDbHelper.COLUMN_LIST_ID,
+                    ListDbHelper.COLUMN_ID, ListDbHelper.COLUMN_TEXT, ListDbHelper.COLUMN_DATE, ListDbHelper.COLUMN_PRIO, ListDbHelper.COLUMN_IS_DONE}, ListDbHelper.COLUMN_LIST_ID + "=?",
+                new String[]{id}, null, null, null, null);
+
+        cursor.moveToFirst();
+        ListeListe listlist;
+
+        while (!cursor.isAfterLast()) {
+            listlist = dataSource.cursorToListList(cursor);
+            listList.add(listlist);
+            cursor.moveToNext();
+        }
+        cursor.close();
+    } catch (NullPointerException ex) {
+        Intent i = new Intent(LeereListe.this, ListenUebersichtMainActivity.class);
+        startActivity(i);
+    }
+        return listList;
+    }
 
     private void showAllListEntries() {
-        List<ListeListe> listList = dataSource.getAllListItems();
+        List<ListeListe> listList = showElements();
 
         ArrayAdapter<ListeListe> listeListeArrayAdapter = new ArrayAdapter<>(
                 this,
@@ -242,6 +265,9 @@ public class LeereListe extends ActionBarActivity {
 
         dataSource.open();
         showAllListEntries();
+
+
+
 
     }
 

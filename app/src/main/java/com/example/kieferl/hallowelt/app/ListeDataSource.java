@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ListeDataSource {
         return listList;
     }
 
-    private ListeListe cursorToListList(Cursor cursor) {
+    public ListeListe cursorToListList(Cursor cursor) {
         int idIndex = cursor.getColumnIndex(ListDbHelper.COLUMN_ID);
         int idListId = cursor.getColumnIndex(ListDbHelper.COLUMN_LIST_ID);
         int idText = cursor.getColumnIndex(ListDbHelper.COLUMN_TEXT);
