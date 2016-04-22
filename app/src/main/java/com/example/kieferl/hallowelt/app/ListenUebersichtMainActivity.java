@@ -220,6 +220,7 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                     Intent i = new Intent(ListenUebersichtMainActivity.this, LeereListe.class);
                     i.putExtra("listId", id);
+                    Toast.makeText(ListenUebersichtMainActivity.this, String.valueOf(id), Toast.LENGTH_SHORT).show();
                     startActivity(i);
                 }
             });
@@ -231,7 +232,6 @@ public class ListenUebersichtMainActivity extends ActionBarActivity {
         super.onResume();
 
         dataSource.open();
-
         showAllListEntries();
     }
 
